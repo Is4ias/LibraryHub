@@ -1,6 +1,7 @@
 package io.github.curso.libraryapi.model;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -26,8 +27,8 @@ public class Autor {
     @Column(name= "nacionalidade", length = 50, nullable = false)
     private String nacionalidade;
 
-    @Deprecated
-    public Autor(){
+    @OneToMany(mappedBy = "autor")
+    private List<livro> livros;
 
     }
 
