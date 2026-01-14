@@ -28,9 +28,7 @@ public class Autor {
     private String nacionalidade;
 
     @OneToMany(mappedBy = "autor")
-    private List<livro> livros;
+    private List<Livro> livros;
 
     }
 
-
-}
