@@ -6,11 +6,13 @@ import java.util.UUID;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "autor", schema = "public")
 @Getter
 @Setter
+@ToString
 public class Autor {
 
     @Id
@@ -22,13 +24,15 @@ public class Autor {
     private String nome;
 
     @Column(name = "data_nascimento", nullable = false)
-    private LocalDate datNascimento;
+    private LocalDate dataNascimento;
 
     @Column(name= "nacionalidade", length = 50, nullable = false)
     private String nacionalidade;
 
     @OneToMany(mappedBy = "autor")
     private List<Livro> livros;
+
+
 
     }
 
