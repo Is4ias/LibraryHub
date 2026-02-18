@@ -2,25 +2,29 @@ package io.github.curso.libraryapi.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table( name = "livro")
+@Table(name = "livro")
 @Data
+@Getter
+@Setter
 public class Livro {
 
     @Id
-    @Column( name = "id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "isbn", length = 20, nullable = false)
     private String isbn;
 
-    @Column(name = "titulo", length = 510, nullable = false)
+    @Column(name = "titulo", length = 150, nullable = false)
     private String titulo;
 
     @Column(name = "data_publicacao" )
