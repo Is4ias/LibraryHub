@@ -34,5 +34,48 @@ class LivroRepositoryTest {
 
         repository.save(livro);
     }
+    @Test
+    void salvarAutorLivro(){
+        Livro livro = new Livro();
+        livro.setIsbn("1234-9876");
+        livro.setPreco(BigDecimal.valueOf(200));
+        livro.setGenero(GeneroLivro.FANTASIA);
+        livro.setTitulo("As cronicas de Narnia");
+        livro.setDataPublicacao(LocalDate.of(2000, 2, 20));
+
+        Autor autor = new Autor();
+        autor.setNome("Alfredo");
+        autor.setNacionalidade("Americano");
+        autor.setDataNascimento(LocalDate.of(1951,8,2));
+
+        autorRepository.save(autor);
+        livro.setAutor(autor);
+        repository.save(livro);
+    }
+
+
+    @Test
+    void salvarTesteCascata(){
+        Livro livro = new Livro();
+        livro.setIsbn("09887-765876");
+        livro.setPreco(BigDecimal.valueOf(100));
+        livro.setGenero(GeneroLivro.ROMANCE);
+        livro.setTitulo("Amor e outras drogas");
+        livro.setDataPublicacao(LocalDate.of(2000, 2, 20));
+
+        Autor autor = new Autor();
+        autor.setNome("Jessy");
+        autor.setNacionalidade("Americana");
+        autor.setDataNascimento(LocalDate.of(1976, 7,2));
+
+
+        livro.setAutor(autor);
+
+        repository.save(livro);
+    }
+    @Test
+    void atualizarLivro(){
+
+    }
 
 }
