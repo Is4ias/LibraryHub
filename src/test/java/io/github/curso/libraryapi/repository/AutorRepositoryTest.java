@@ -1,12 +1,15 @@
 package io.github.curso.libraryapi.repository;
 
 import io.github.curso.libraryapi.model.Autor;
+import io.github.curso.libraryapi.model.GeneroLivro;
+import io.github.curso.libraryapi.model.Livro;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.sql.SQLOutput;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,6 +20,9 @@ public class AutorRepositoryTest {
 
     @Autowired
     AutorRepository repository;
+
+    @Autowired
+    LivroRepository livroRepository;
 
     @Test
     void salvarAutor() {
@@ -69,6 +75,40 @@ public class AutorRepositoryTest {
         var machadoDeAssis = repository.findById(id).get();
 
         repository.delete(machadoDeAssis);
+
+    }
+    @Test
+    void salvarAutorLivrosTest(){
+        Autor autor = new Autor();
+        autor.setNome("Jeff Kinney");
+        autor.setNacionalidade("norte-americano");
+        autor.setDataNascimento(LocalDate.of(1971, 2, 19));
+
+        Livro livro = new Livro();
+        livro.setIsbn("1234-9876");
+        livro.setPreco(BigDecimal.valueOf(40));
+        livro.setGenero(GeneroLivro.FANTASIA);
+        livro.setTitulo("Diario de um banana 1");
+        livro.setDataPublicacao(LocalDate.of(2007, 1, 1));
+        livro.setAutor(autor);
+
+        Livro livro2 = new Livro();
+        livro2.setIsbn("1277-9876");
+        livro2.setPreco(BigDecimal.valueOf(40));
+        livro2.setGenero(GeneroLivro.FANTASIA);
+        livro2.setTitulo("Diario de um banana 2");
+        livro2.setDataPublicacao(LocalDate.of(2008, 1, 1));
+        livro2.setAutor(autor);
+
+        autor.setLivros(new ArrayList<>());
+        autor.getLivros().add(livro);
+        autor.getLivros().add(livro2);
+
+        repository.save(autor);
+
+        livroRepository.saveAll(autor.getLivros());
+
+
 
     }
 }
