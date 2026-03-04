@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -107,8 +108,17 @@ public class AutorRepositoryTest {
         repository.save(autor);
 
         livroRepository.saveAll(autor.getLivros());
+    }
+    @Test
+    void listarLivrosAutor(){
+        var id = UUID.fromString("9d0201b7-6e77-4f6d-bfea-373142e58cb4");
+        var autor = repository.findById(id).get();
 
-
+        List<Livro> livrosLista = livroRepository.findByAutor(autor);
+        autor.setLivros(livrosLista);
+        autor.getLivros().forEach(System.out::println);
 
     }
+
+
 }
