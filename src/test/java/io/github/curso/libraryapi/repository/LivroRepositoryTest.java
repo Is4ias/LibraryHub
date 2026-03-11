@@ -6,6 +6,7 @@ import io.github.curso.libraryapi.model.Livro;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Sort;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -107,5 +108,39 @@ class LivroRepositoryTest {
         List<Livro> lista = repository.findByGenero(GeneroLivro.ROMANCE);
         lista.forEach(System.out::println);
     }
+    @Test
+    void ListarTodos(){
+        var resultado = repository.listarTodos();
+        resultado.forEach(System.out::println);
+    }
+    @Test
+    void ListarAutores(){
+        var resultado = repository.ListarAutores();
+        resultado.forEach(System.out::println);
+    }
+    @Test
+    void ListarDiferentesLivros(){
+        var resultado = repository.ListarDiferentesLivros();
+        resultado.forEach(System.out::println);
+    }
+    @Test
+    void ListarGeneroBR(){
+        var resultado = repository.ListarGeneroBR();
+        resultado.forEach(System.out::println);
+    }
+
+    @Test
+    void ListarPorGeneroParam(){
+        var resultado = repository.findByGeneroPositional(GeneroLivro.FICCAO);
+        resultado.forEach(System.out::println);
+
+    }
+
+    @Test
+    void ListarGeneroPositonalTest(){
+        var resultado = repository.findByPositionalParameters(GeneroLivro.ROMANCE, "preco");
+        resultado.forEach(System.out::println);
+    }
+
 
 }
