@@ -6,7 +6,7 @@ import io.github.curso.libraryapi.model.Livro;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Sort;
+
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -39,16 +39,16 @@ class LivroRepositoryTest {
     @Test
     void salvarAutorLivro(){
         Livro livro = new Livro();
-        livro.setIsbn("1234-9876");
-        livro.setPreco(BigDecimal.valueOf(200));
-        livro.setGenero(GeneroLivro.FANTASIA);
-        livro.setTitulo("As cronicas de Narnia");
-        livro.setDataPublicacao(LocalDate.of(2000, 2, 20));
+        livro.setIsbn("1555-9876");
+        livro.setPreco(BigDecimal.valueOf(300));
+        livro.setGenero(GeneroLivro.CIENCIA);
+        livro.setTitulo("Teoria da relatividade");
+        livro.setDataPublicacao(LocalDate.of(1960, 2, 20));
 
         Autor autor = new Autor();
-        autor.setNome("Alfredo");
-        autor.setNacionalidade("Americano");
-        autor.setDataNascimento(LocalDate.of(1951,8,2));
+        autor.setNome("Albert Einstein");
+        autor.setNacionalidade("Alemão");
+        autor.setDataNascimento(LocalDate.of(1879,3,14));
 
         autorRepository.save(autor);
         livro.setAutor(autor);
@@ -140,6 +140,16 @@ class LivroRepositoryTest {
     void ListarGeneroPositonalTest(){
         var resultado = repository.findByPositionalParameters(GeneroLivro.ROMANCE, "preco");
         resultado.forEach(System.out::println);
+    }
+
+    @Test
+    void deleteLGenero(){
+        repository.deletByGenero(GeneroLivro.CIENCIA);
+    }
+
+    @Test
+    void updateDataPubli(){
+        repository.updateDataPubli(LocalDate.of(2000, 1, 1));
     }
 
 
