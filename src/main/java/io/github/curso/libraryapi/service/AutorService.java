@@ -18,15 +18,23 @@ public class AutorService {
 
     public Autor salvar(Autor autor){
         return repository.save(autor);
-
     }
 
     public Optional<Autor> getId(UUID id){
         return repository.findById(id);
     }
+
+    public void atualizar(Autor autor){
+        if(autor.getId() == null){
+            throw new IllegalArgumentException("Não foi possivel atualizar");
+        }
+        repository.save(autor);
+    }
+
     public void deletar(Autor autor){
          repository.delete(autor);
     }
+
     public List<Autor> pesquisa(String nome, String nacionalidade){
         if(nome !=  null && nacionalidade != null){
             return repository.findByNomeAndNacionalidade(nome, nacionalidade);
