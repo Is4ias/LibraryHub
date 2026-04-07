@@ -2,6 +2,7 @@ package io.github.curso.libraryapi.service;
 
 import io.github.curso.libraryapi.model.Autor;
 import io.github.curso.libraryapi.repository.AutorRepository;
+import io.github.curso.libraryapi.validator.AutorValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,13 +11,17 @@ import java.util.UUID;
 
 @Service
 public class AutorService {
-    private final AutorRepository repository;
 
-    public AutorService(AutorRepository repository){
+    private final AutorRepository repository;
+    private final AutorValidator validator;
+
+    public AutorService(AutorRepository repository, AutorValidator validator){
         this.repository = repository;
+        this.validator = validator;
     }
 
     public Autor salvar(Autor autor){
+        validator.validar(autor);
         return repository.save(autor);
     }
 
@@ -28,6 +33,7 @@ public class AutorService {
         if(autor.getId() == null){
             throw new IllegalArgumentException("Não foi possivel atualizar");
         }
+        validator.validar(autor);
         repository.save(autor);
     }
 
