@@ -28,10 +28,10 @@ class LivroRepositoryTest {
         livro.setIsbn("12345-54321");
         livro.setPreco(BigDecimal.valueOf(100));
         livro.setGenero(GeneroLivro.FICCAO);
-        livro.setTitulo("UFO");
+        livro.setTitulo("A teoria de tudo");
         livro.setDataPublicacao(LocalDate.of(1980,1,2));
 
-        Autor autor = autorRepository.findById(UUID.fromString("1762fd40-c7ec-4f22-a755-4ea7ccbbf40c")).orElse(null);
+        Autor autor = autorRepository.findById(UUID.fromString("c22d6753-b66d-4279-b279-8a50695421a2")).orElse(null);
         livro.setAutor(autor);
 
         repository.save(livro);
