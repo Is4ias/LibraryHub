@@ -2,6 +2,7 @@ package io.github.curso.libraryapi.controller.mappers;
 
 
 import io.github.curso.libraryapi.controller.dto.CadastroLivroDTO;
+import io.github.curso.libraryapi.controller.dto.ResultadoLivroDTO;
 import io.github.curso.libraryapi.model.Autor;
 import io.github.curso.libraryapi.model.Livro;
 import io.github.curso.libraryapi.repository.AutorRepository;
@@ -11,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.UUID;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = AutorMapper.class)
 public abstract class LivroMapper {
 
     @Autowired
@@ -23,4 +24,6 @@ public abstract class LivroMapper {
     protected Autor buscarAutor(UUID idAutor){
         return autorRepository.findById(idAutor).orElse(null);
     }
+
+    public abstract ResultadoLivroDTO toDTO(Livro livro);
 }
