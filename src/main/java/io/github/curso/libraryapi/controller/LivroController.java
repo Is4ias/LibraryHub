@@ -44,7 +44,7 @@ public class LivroController implements GerarHeaderLocation{
                 }).orElseGet( () -> ResponseEntity.notFound().build() );
     }
     @DeleteMapping("{id}")
-    public ResponseEntity<Object> deleltar(@PathVariable("id") String id) {
+    public ResponseEntity<Object> deletar(@PathVariable("id") String id) {
         return service.obterPorId(UUID.fromString(id))
                 .map(livro -> {
                     service.deletar(livro);
