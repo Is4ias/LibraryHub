@@ -13,6 +13,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -29,7 +30,10 @@ public interface LivroRepository extends JpaRepository<Livro, UUID>, JpaSpecific
 
     List<Livro> findByGenero(GeneroLivro genero);
 
-    List<Livro> findByIsbn(String isbn);
+    @Override
+    Optional<Livro> findById(UUID uuid);
+
+    Optional<Livro> findByIsbn(String isbn);
 
     @Query("select l from Livro as l order by l.titulo")
     List<Livro> listarTodos();
