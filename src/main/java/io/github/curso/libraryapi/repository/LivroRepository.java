@@ -5,6 +5,8 @@ import io.github.curso.libraryapi.model.GeneroLivro;
 import io.github.curso.libraryapi.model.Livro;
 import jakarta.persistence.Transient;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -23,6 +25,8 @@ import java.util.UUID;
 
 public interface LivroRepository extends JpaRepository<Livro, UUID>, JpaSpecificationExecutor<Livro> {
     // QUERY METHODS
+
+
 
     List<Livro> findByAutor(Autor autor);
 
