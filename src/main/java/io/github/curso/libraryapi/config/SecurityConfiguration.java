@@ -29,6 +29,9 @@ public class SecurityConfiguration {
                     configure.loginPage("/login").permitAll();
                 })
                 .authorizeHttpRequests(authorize -> {
+                    authorize.requestMatchers("/login").permitAll();
+                    authorize.requestMatchers("/autores/**").hasAnyRole("ADMIN");
+                    authorize.requestMatchers("/livros/**").hasAnyRole("ADMIN", "USER");
                     authorize.anyRequest().authenticated();
                 })
                 .build();
