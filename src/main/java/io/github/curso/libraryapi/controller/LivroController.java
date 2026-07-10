@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.data.domain.Pageable;
@@ -30,6 +31,7 @@ public class LivroController implements GerarHeaderLocation{
     private final LivroMapper mapper;
 
     @PostMapping
+    @PreAuthorize("hasRole('GERENTE')")
     public ResponseEntity<Void> salvar(@RequestBody @Valid CadastroLivroDTO dto){
             Livro livro = mapper.toEntity(dto);
             service.salvar(livro);
@@ -38,6 +40,7 @@ public class LivroController implements GerarHeaderLocation{
             return ResponseEntity.created(url).location(url).build();
     }
     @GetMapping("{id}")
+    @PreAuthorize("hasAnyRole('OPERADOR','GERENTE')")
     public ResponseEntity<ResultadoLivroDTO> obterDetalhes
             (@PathVariable("id") String id){
         return service.obterPorId(UUID.fromString(id))
@@ -47,6 +50,7 @@ public class LivroController implements GerarHeaderLocation{
                 }).orElseGet( () -> ResponseEntity.notFound().build() );
     }
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('GERENTE')")
     public ResponseEntity<Object> deletar(@PathVariable("id") String id) {
         return service.obterPorId(UUID.fromString(id))
                 .map(livro -> {
@@ -56,6 +60,7 @@ public class LivroController implements GerarHeaderLocation{
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('OPERADOR','GERENTE')")
     public ResponseEntity<org.springframework.data.domain.Page<ResultadoLivroDTO>> pesquisa(
             @RequestParam(value = "isbn", required = false)
             String isbn,
@@ -80,6 +85,7 @@ public class LivroController implements GerarHeaderLocation{
     }
 
     @PutMapping("{id}")
+    @PreAuthorize("hasRole('GERENTE')")
     public ResponseEntity<Object> atualizar(@PathVariable("id") String id, @RequestBody @Valid CadastroLivroDTO dto) {
         return service.obterPorId(UUID.fromString(id))
                 .map(livro -> {
