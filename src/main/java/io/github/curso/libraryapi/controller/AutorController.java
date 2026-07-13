@@ -6,10 +6,16 @@ import io.github.curso.libraryapi.controller.mappers.AutorMapper;
 import io.github.curso.libraryapi.exceptions.OperacaoNaoPermitida;
 import io.github.curso.libraryapi.exceptions.RegistroDuplicadoException;
 import io.github.curso.libraryapi.model.Autor;
+import io.github.curso.libraryapi.model.Usuario;
+import io.github.curso.libraryapi.security.SecurityService;
 import io.github.curso.libraryapi.service.AutorService;
+import io.github.curso.libraryapi.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -25,19 +31,24 @@ import java.util.stream.Collectors;
 public class AutorController implements GerarHeaderLocation {
 
     public final AutorService service;
+    private final SecurityService securityService;
     private final AutorMapper mapper;
 
     @PostMapping
+    @PreAuthorize("hasRole('GERENTE')")
     public ResponseEntity<Void> salvar(@RequestBody @Valid AutorDTO dto){
-            Autor autor = mapper.toEntity(dto);
-            service.salvar(autor);
-            URI location = gerarHeaderLocation(autor.getId());
-            return ResponseEntity.created(location).build();
 
 
+
+
+        Autor autor = mapper.toEntity(dto);
+        service.salvar(autor);
+        URI location = gerarHeaderLocation(autor.getId());
+        return ResponseEntity.created(location).build();
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasAnyRole('OPERADOR','GERENTE')")
     public ResponseEntity<AutorDTO> getDetalhes(@PathVariable("id") String id){
         var idAutor = UUID.fromString(id);
 
@@ -51,6 +62,7 @@ public class AutorController implements GerarHeaderLocation {
 
     }
     @DeleteMapping("{id}")
+    @PreAuthorize("hasAnyRole('GERENTE')")
     public ResponseEntity<Void> deletar(@PathVariable("id") String id) {
         var idAutor = UUID.fromString(id);
         Optional<Autor> autorOptional = service.getId(idAutor);
@@ -65,6 +77,7 @@ public class AutorController implements GerarHeaderLocation {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('OPERADOR','GERENTE')")
     public ResponseEntity<List<AutorDTO>> pesquisar(
             @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "nacionalidade", required = false) String nacionalidade){
@@ -79,6 +92,7 @@ public class AutorController implements GerarHeaderLocation {
 
     }
     @PutMapping("{id}")
+    @PreAuthorize("hasAnyRole('GERENTE')")
     public ResponseEntity<Void> atualizar(@PathVariable("id") String id, @RequestBody AutorDTO dto){
         var idAutor = UUID.fromString(id);
         Optional<Autor> autorOptional = service.getId(idAutor);
