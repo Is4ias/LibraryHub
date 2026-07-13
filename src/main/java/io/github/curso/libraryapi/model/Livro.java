@@ -50,15 +50,16 @@ public class Livro {
     private Autor autor;
 
     @CreatedDate
-    @Column( name = "data_cadastro")
+    @Column(name = "data_cadastro")
     private LocalDateTime dataCadastro;
 
     @LastModifiedDate
-    @Column( name = "data_atualizacao")
+    @Column(name = "data_atualizacao")
     private LocalDateTime dataAtualizacao;
 
-    @Column( name = "id_usuario")
-    private UUID idUsuario;
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
 
 
 }
