@@ -1,9 +1,11 @@
 package io.github.curso.libraryapi.controller;
 
 import io.github.curso.libraryapi.security.CustomAuthentication;
+import org.aspectj.apache.bcel.classfile.Code;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -21,5 +23,11 @@ public class LoginViewController {
             System.out.println(customAuthentication.getUsuario());
         }
         return "Olá" + authentication.getName();
+    }
+
+    @GetMapping("/authorized")
+    @ResponseBody
+    public String getAuthorizedCode(@RequestParam("code") String code){
+        return "Seu authorization code:" + code;
     }
 }
